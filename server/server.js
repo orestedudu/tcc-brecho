@@ -1,14 +1,12 @@
-const { createServer } = require('node:http');
+// Servidor Express que roda por cima do Node (servidor simples)
 
-const hostname = '127.0.0.1';
-const port = 4500;
+const express = require('express');
+const server = express();
 
-const server = createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
+server.get('/', (_, res) => {
+  res.send ('Hello EXPRESSSSSSSSSSSSS!');
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+server.listen(3000, () => {
+  console.log(`Server running at http://127.0.0.1:3000/`);
 });
