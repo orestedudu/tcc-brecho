@@ -1,6 +1,4 @@
-
-
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, Collection } = require('mongodb');
 
 const password = 'jardel2001';
 const uri = `mongodb+srv://Jardel:${password}@firstcluster.a7hehmz.mongodb.net/?appName=FirstCluster`;
@@ -23,14 +21,21 @@ async function run() {
     await client.db("admin").command({ ping: 1 });
     console.log("Success in connection to MongoDB");
 
-    // Insert greetings in the MongoDB and print in console. 
-    const collection = client.db("test").collection('devices');
-    console.log(await collection.insertOne({ greeting: 'Hello Mongo' }));
+    //Create the database "teste" and, inside it, the collection "devices".
+    //Then, insert a document containing the key greeting with the value "Hello Mongo".
 
+    const collection = client.db("test").collection('devices');
+    
+    //INSERT
+    //console.log(await collection.insertOne({ greeting: 'Hello Mongo' }));
+
+    //FIND ONE
+    await collection.findOne({ greeting: 'Hello Mongo'}).then((document) => console.log(document.greeting));
+    
   } 
   catch (error){
     console.error("Error during connection: ", error)
-  }
+  } 
   finally {
     // Ensures that the client will close when you finish/error
     await client.close();
