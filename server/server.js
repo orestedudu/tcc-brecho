@@ -7,7 +7,7 @@ const server = express();
 // Accept requests the others locations
 server.use(cors());
 server.get('/', (_, res) => {
-  res.send('Hello EXPRESSSSSSSSSSSSS!');
+  res.json('Hello EXPRESSSSSSSSSSSSS!');
 });
 
 const port = 3001;
