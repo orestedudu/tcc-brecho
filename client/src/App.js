@@ -19,10 +19,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          HELLO REACT!
-        </p>
-        <p> o greeting é: {greeting}</p>
+        <p>{greeting} + React</p>
+        <p>Minha stack MERN</p>
       </header>
     </div>
   );
