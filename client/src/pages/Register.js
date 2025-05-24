@@ -1,61 +1,115 @@
-// src/pages/Register.js
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export default function Register() {
-  const [nome, setNome] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [senha, setSenha] = React.useState('');
-  const [mensagem, setMensagem] = React.useState('');
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [mensagem, setMensagem] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-
-    const usuario = { nome, email, senha };
+    setMensagem('');
 
     try {
-      const res = await fetch('http://localhost:7777/api/users/register', {
+      const response = await fetch('http://localhost:7777/api/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(usuario),
+        body: JSON.stringify({ nome, email, senha }),
       });
 
-      const data = await res.json();
+      const data = await response.json();
 
-      if (res.ok) {
-        setMensagem('Cadastro realizado com sucesso! Você já pode fazer login.');
-        setNome('');
-        setEmail('');
-        setSenha('');
-      } else {
-        setMensagem(data.mensagem || 'Erro ao cadastrar usuário.');
+      if (!response.ok) {
+        return setMensagem(data.message || 'Erro ao registrar');
       }
+
+      setMensagem('Usuário registrado com sucesso!');
+      setNome('');
+      setEmail('');
+      setSenha('');
     } catch (error) {
-      setMensagem('Erro ao conectar com o servidor.');
+      setMensagem('Erro ao conectar com o servidor');
     }
   };
 
   return (
-    <div>
-      <h2>Registrar Usuário</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Nome:</label>
-          <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} required />
-        </div>
+    <div
+      style={{
+        backgroundImage: "url('/images/salao.jpg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+      }}
+    >
+      <div id="login" className="d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
+        <div className="container">
+          <div id="login-row" className="row justify-content-center align-items-center">
+            <div id="login-column" className="col-md-6">
+              <div
+                id="login-box"
+                className="col-md-12 p-4"
+                style={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '8px' }}
+              >
+                <form id="login-form" className="form" onSubmit={handleRegister}>
+                  <h3 className="text-center text-info">Registro</h3>
 
-        <div>
-          <label>Email:</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </div>
+                  {mensagem && <p className="text-danger">{mensagem}</p>}
 
-        <div>
-          <label>Senha:</label>
-          <input type="password" value={senha} onChange={(e) => setSenha(e.target.value)} required />
-        </div>
+                  <div className="form-group">
+                    <label htmlFor="nome" className="text-info">Nome:</label><br />
+                    <input
+                      type="text"
+                      name="nome"
+                      id="nome"
+                      className="form-control"
+                      value={nome}
+                      onChange={(e) => setNome(e.target.value)}
+                      required
+                    />
+                  </div>
 
-        <button type="submit">Registrar</button>
-      </form>
-      {mensagem && <p>{mensagem}</p>}
+                  <div className="form-group">
+                    <label htmlFor="email" className="text-info">Email:</label><br />
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      className="form-control"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label htmlFor="senha" className="text-info">Senha:</label><br />
+                    <input
+                      type="password"
+                      name="senha"
+                      id="senha"
+                      className="form-control"
+                      value={senha}
+                      onChange={(e) => setSenha(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group d-flex justify-content-between mt-4">
+                    <input
+                      type="submit"
+                      name="submit"
+                      className="btn btn-info btn-md"
+                      value="Registrar"
+                    />
+                    <a href="/login" className="btn btn-secondary btn-md ml-3">Voltar para login</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
+
 }

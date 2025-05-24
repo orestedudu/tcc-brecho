@@ -1,10 +1,22 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Bem-vindo(a) ao sistema!</h1>
-      <p>Você está logado.</p>
+    <div>
+      <h1>Bem-vindo(a)!</h1>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/agendar">Agendar um serviço</Link>
+          </li>
+          <li>
+            <Link to="/agendamentos/pendentes">Ver agendamentos pendentes</Link>
+          </li>
+          <li>
+            <Link to="/agendamentos/concluidos">Ver agendamentos concluídos</Link>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 }
