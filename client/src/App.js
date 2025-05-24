@@ -1,29 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Home from './pages/Home'; // ou qualquer rota após login
 
-function App() {
-  
-  const [greeting, setGreeting] = useState([]);
-
-  async function fetchGreeting(params) {
-    const response = await fetch('http://localhost.:3001');
-    setGreeting(await response.json()); 
-  }
-  
-  useEffect(() => {
-    fetchGreeting();
-  }, [greeting]);
+export default function App() {
+  const [token, setToken] = useState(null);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{greeting} + React</p>
-        <p>Minha stack MERN</p>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={token ? <Home /> : <Navigate to="/login" />} />
+        <Route path="/login" element={<Login onLogin={setToken} />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/Home" element={<Home />} />
+      </Routes>
+    </Router>
   );
 }
-
-export default App;

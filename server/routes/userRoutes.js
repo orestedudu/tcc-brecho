@@ -38,32 +38,41 @@ router.post('/register', async (req, res) => {
 
 
 // Login
+// Login
 router.post('/login', async (req, res) => {
+  console.log('➡️ Corpo da requisição:', req.body); // Etapa 1
+
   const { email, senha } = req.body;
 
   try {
     const usuario = await User.findOne({ email });
+    console.log('👤 Usuário encontrado:', usuario); // Etapa 3
+
     if (!usuario) {
       return res.status(400).json({ mensagem: 'Usuário não encontrado' });
     }
 
     const senhaValida = await bcrypt.compare(senha, usuario.senha);
+    console.log('🔐 Senha válida?', senhaValida); // Etapa 4
+
     if (!senhaValida) {
       return res.status(400).json({ mensagem: 'Senha inválida' });
     }
 
     const token = jwt.sign(
-      { id: usuario._id, tipo: usuario.tipo },
+      { userId: usuario._id, tipo: usuario.tipo },
       JWT_SECRET,
       { expiresIn: '2h' }
     );
+    console.log('🎟️ Token gerado:', token); // Etapa 5
 
     res.json({ mensagem: 'Login bem-sucedido', token });
   } catch (erro) {
-    console.error(erro);
+    console.error('❌ Erro no servidor:', erro);
     res.status(500).json({ mensagem: 'Erro no servidor' });
   }
 });
+
 
 // Profile
 router.get('/profile', authMiddleware, async (req, res) => {
