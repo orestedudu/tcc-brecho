@@ -1,91 +1,155 @@
 
-# Passo a Passo: Minha Stack MERN
+# Sistema de Agendamento para salão de beleza - Stack MERN
 
-Este README documenta os passos realizados ao longo dos commits do projeto. O objetivo é detalhar cada alteração para facilitar o entendimento e auxiliar na realização de seus trabalhos, caso venha utilizar a stack MERN (Mongo, Express, React e Node).
+Este projeto é um **Sistema de Agendamento Online para salão de beleza**, desenvolvido utilizando a stack **MERN (MongoDB, Express, React e Node.js)**. Foi desenvolvido com fins didáticos para servir como **apoio para os alunos desenvolverem seus próprios projetos de conclusão de curso (TCC)**.
 
----
+## Objetivo do Projeto
 
-## Histórico de Commits e Descrições
+O sistema permite que usuários realizem:
 
-### Commit: `5618545`
-**Descrição:** Criamos o servidor Node.js inicial. Um ponto de partida para o projeto.
+- **Agendamentos de serviços**
+- **Edição de agendamentos**
+- **Cancelamento (exclusão) de agendamentos**
+- **Listagem de agendamentos pendentes e concluídos**
+- **Autenticação de usuários (Login e Registro)**
 
----
+## Tecnologias Utilizadas
 
-### Commit: `c82a927`
-**Descrição:** Executamos o comando `npm init -y` para criar o arquivo `package.json`.
+### Frontend
 
----
+- React
+- React Router DOM
+- Bootstrap (para estilização)
 
-### Commit: `d200173`
-**Descrição:** Instalamos o Express como dependência do projeto usando `npm install express`.
+### Backend
 
----
+- Node.js
+- Express
+- MongoDB (via Mongoose)
+- JSON Web Token (JWT) para autenticação
+- Bcrypt para hash de senhas
+- Dotenv para variáveis de ambiente
+- CORS
 
-### Commit: `997b76e`
-**Descrição:** Configuramos um servidor básico com Express, permitindo o início de testes locais.
+### Banco de Dados
 
----
+- MongoDB (MongoDB Atlas ou local)
 
-### Commit: `51c7101`
-**Descrição:** Instalamos o driver oficial do MongoDB para Node.js com `npm install mongodb`.
+## Estrutura do Projeto
 
----
+```
+stack-MERN/
+├── client/                # Frontend (React)
+├── server/                # Backend (Node + Express)
+│   ├── controllers/       # Lógica de negócios (funções das rotas)
+│   ├── models/            # Modelos do MongoDB
+│   ├── routes/            # Rotas da API (endpoints)
+│   ├── middleware/        # Middlewares (ex.: autenticação JWT)
+│   ├── config.js          # Centraliza a leitura das variáveis do .env (Ex.: JWT_SECRET, MONGO_URI)
+│   ├── .env               # Variáveis de ambiente (não vai para o GitHub)
+│   ├── server.js          # Arquivo principal que sobe o servidor
+│   └── mongo.js           # Script de conexão com o MongoDB
 
-### Commit: `8b73a8d`
-**Descrição:** Adicionamos um exemplo de conexão com o MongoDB no código, estabelecendo a base para interações com o banco de dados.
+```
 
----
+## Instalação e Configuração
 
-### Commit: `a6a2af8`
-**Descrição:** Criamos o banco de dados e a coleção necessária para armazenar os dados.
+### Backend
 
----
+1. Acesse a pasta `server`:
 
-### Commit: `b96df80`
-**Descrição:** Buscamos documentos no banco de dados e os exibimos como resposta no servidor.
+```bash
+cd server
+```
 
----
+2. Instale as dependências:
 
-### Commit: `09b5518`
-**Descrição:** Compilamos o cliente React com sucesso, preparando o frontend para interagir com o backend.
+```bash
+npm install
+```
 
----
+3. Crie um arquivo `.env` na pasta `server` com as seguintes variáveis:
 
-### Commit: `481210f`
-**Descrição:** Alteramos a porta do servidor para `3001` para evitar conflitos e melhorar a organização.
+```
+MONGO_URI=<sua_string_de_conexao_do_mongodb>
+JWT_SECRET=<sua_chave_secreta_para_assinar_e_validar_os_tokens_de_autenticação>
+PORT=<a_porta_na_qual_rodará_seu_backend>
+```
 
----
+> **Atenção:**  
+> O valor de **`JWT_SECRET`** deve ser uma chave **única e segura**, escolhida por cada aluno/dupla.
+> Essa chave é usada para gerar e validar os **tokens de autenticação** e **não deve ser compartilhada publicamente, nem versionada no GitHub**.  
+> Recomenda-se usar uma sequência forte de caracteres, como letras, números e símbolos.
+> Além disso, não adicione sua string de conexão com o MongoDB contendo usuário e senha no código-fonte.
 
-### Commit: `d7ca746`
-**Descrição:** Adicionamos o `fetch` no frontend, permitindo que o cliente React se conecte ao backend.
 
----
+4. Inicie o servidor:
 
-### Commit: `60e3104`
-**Descrição:** Instalamos e configuramos o `cors` no servidor Express para permitir conexões entre origens diferentes.
+```bash
+npm start
+```
 
----
+O backend rodará em: `http://localhost:${PORT}`
 
-### Commit: `5910361`
-**Descrição:** Alteramos o tipo de resposta no servidor de texto para JSON, tornando as respostas mais estruturadas e práticas.
+### Frontend
 
----
+1. Acesse a pasta `client`:
 
-### Commit: `066573f`
-**Descrição:** Modificamos o arquivo `Mongo.js` para exportar a conexão e a coleção, e atualizamos o `server.js` para responder com os dados do banco de dados.
+```bash
+cd client
+```
 
----
+2. Instale as dependências:
 
-### Commit: `802abb7`
-**Descrição:** Integramos o cliente React com o backend, adicionando a camada "Minha Stack MERN" ao cliente.
+```bash
+npm install
+```
 
----
+3. Inicie o frontend:
 
-Ao final desse passo-a-passo a arquitetura do sistema estará funcional, permitindo o fluxo de comunicação entre as partes.
+```bash
+npm start
+```
 
-## Arquitetura do Sistema
+O frontend estará disponível em: `http://localhost:3000`.
 
-### Fluxo de Comunicação
-```plaintext
-React (Frontend) <---> Node + Express (Backend) <---> MongoDB (Banco de Dados)
+## Funcionalidades
+
+- **Autenticação:**
+  - Login e cadastro com segurança usando JWT e bcrypt.
+
+- **Agendamento:**
+  - Criar, listar, editar e excluir agendamentos.
+
+- **Filtros:**
+  - Filtragem de agendamentos por status (pendente, concluído).
+
+- **Proteção de rotas:**
+  - Apenas usuários autenticados acessam funcionalidades.
+
+## Segurança
+
+- As senhas dos usuários são armazenadas de forma segura usando **bcrypt** (hashing).
+- As rotas da API são protegidas usando **JWT** (JSON Web Token).
+- Apenas usuários autenticados podem criar, editar, excluir ou visualizar seus próprios agendamentos.
+
+## Como Usar no TCC?
+
+- Este projeto é uma **base funcional**, onde você pode:
+  - Alterar o tema (ex.: barbearia, consultório, academia, petshop).
+  - Adicionar novos campos (ex.: telefone, endereço, nome do cliente).
+  - Implementar novas funcionalidades (ex.: envio de email, painel admin, confirmação de agendamento).
+  - Melhorar o layout, responsividade e experiência do usuário.
+
+## Licença
+
+Este projeto é de uso **livre para fins acadêmicos e educacionais**.
+
+## Desenvolvido por
+
+**Prof. Jardel Gonçalves**  
+Instituto Federal Catarinense (IFC).
+
+## Suporte
+
+Em caso de dúvidas, procure o professor em sala ou pelos canais oficiais do curso (Somente orientandos).
