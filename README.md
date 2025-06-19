@@ -52,8 +52,13 @@ stack-MERN/
 
 ```
 
-## Instalação e Configuração
+## Instalação e Configuração 
 
+- ***Clone o repositório***
+
+```bash
+git clone https://github.com/jbgoncalvess/stack-mern-agendamento
+```
 ### Backend
 
 1. Acesse a pasta `server`:
@@ -75,6 +80,22 @@ MONGO_URI=<sua_string_de_conexao_do_mongodb>
 JWT_SECRET=<sua_chave_secreta_para_assinar_e_validar_os_tokens_de_autenticação>
 PORT=<a_porta_na_qual_rodará_seu_backend>
 ```
+
+#### **Como configurar o `MONGO_URI`:**
+
+Formato padrão da string:
+
+```bash
+"mongodb+srv://<USUÁRIO>:<SENHA>@firstcluster.a7hehmz.mongodb.net/<NOME_DO_BANCO>?retryWrites=true&w=majority&appName=<CLUSTER>"
+```
+
+🔸 **Substitua:**
+
+- `<USUARIO>` => Seu usuário do MongoDB Atlas
+- `<SENHA>` => Sua senha do MongoDB Atlas
+- `<CLUSTER>` => Nome do seu cluster (ex.: `FirstCluster`)
+- `<NOME_DO_BANCO>` => Nome do seu banco de dados (ex.: `agendamentosDB`)
+
 
 > **Atenção:**  
 > O valor de **`JWT_SECRET`** deve ser uma chave **única e segura**, escolhida por cada aluno/dupla.

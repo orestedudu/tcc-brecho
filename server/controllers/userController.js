@@ -3,8 +3,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { JWT_SECRET } = require('../config');
 
-console.log('JWT_SECRET:', JWT_SECRET);
-
 // Realizar login
 const loginUser = async (req, res) => {
   const { email, senha } = req.body;
