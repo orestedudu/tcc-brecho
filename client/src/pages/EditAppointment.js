@@ -1,31 +1,57 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 
+export default function EditAppointment() {
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-export default function NewAppointment() {
   const [servico, setServico] = useState('');
   const [data, setData] = useState('');
   const [observacoes, setObservacoes] = useState('');
   const [mensagem, setMensagem] = useState('');
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchAppointment = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`http://localhost:7777/api/agendamentos/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-  const handleAgendar = async (e) => {
+        const data = await response.json();
+
+        if (!response.ok) {
+          setMensagem(data.mensagem || 'Erro ao buscar agendamento');
+          return;
+        }
+
+        setServico(data.service);
+        setData(new Date(data.date).toISOString().slice(0, 16));
+        setObservacoes(data.notes || '');
+      } catch (error) {
+        setMensagem('Erro na conexão com o servidor');
+      }
+    };
+
+    fetchAppointment();
+  }, [id]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setMensagem('');
 
     try {
       const token = localStorage.getItem('token');
 
-      const response = await fetch('http://localhost:7777/api/agendamentos', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:7777/api/agendamentos/${id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          service: servico,
           date: data,
+          service: servico,
           notes: observacoes,
         }),
       });
@@ -33,29 +59,19 @@ export default function NewAppointment() {
       const resData = await response.json();
 
       if (!response.ok) {
-        return setMensagem(resData.message || 'Erro ao agendar');
+        setMensagem(resData.mensagem || 'Erro ao atualizar');
+        return;
       }
 
-      // Mensagem opcional (pode remover se quiser redirecionar direto)
-      setMensagem('Agendamento realizado com sucesso!');
-
-      // Limpa os campos
-      setServico('');
-      setData('');
-      setObservacoes('');
-
-      // Redireciona para a tela de agendamentos pendentes
       navigate('/agendamentos/pendentes');
-
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
       setMensagem('Erro ao conectar com o servidor');
     }
   };
 
   return (
     <div 
-      style={{ 
+      style={{
         backgroundImage: "url('/images/salao.jpg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -64,15 +80,15 @@ export default function NewAppointment() {
       className="d-flex justify-content-center align-items-center"
     >
       <div className="card shadow p-4 bg-light" style={{ maxWidth: '500px', width: '100%', opacity: 0.95 }}>
-        <h2 className="text-center text-primary mb-4">Agendar novo horário</h2>
+        <h2 className="text-center text-primary mb-4">Editar Agendamento</h2>
 
         {mensagem && (
-          <div className={`alert ${mensagem.includes('sucesso') ? 'alert-success' : 'alert-danger'}`} role="alert">
+          <div className={`alert ${mensagem.includes('Erro') ? 'alert-danger' : 'alert-success'}`} role="alert">
             {mensagem}
           </div>
         )}
 
-        <form onSubmit={handleAgendar}>
+        <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">Serviço:</label>
             <input
@@ -106,14 +122,13 @@ export default function NewAppointment() {
           </div>
 
           <button type="submit" className="btn btn-primary w-100">
-            Agendar
+            Salvar Alterações
           </button>
         </form>
 
-        <Link to="/" className="btn btn-secondary mt-4 w-100">
+        <Link to="/agendamentos/pendentes" className="btn btn-secondary mt-4 w-100">
           Voltar
         </Link>
-
       </div>
     </div>
   );
