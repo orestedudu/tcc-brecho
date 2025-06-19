@@ -89,7 +89,7 @@ Formato padrão da string:
 "mongodb+srv://<USUÁRIO>:<SENHA>@firstcluster.a7hehmz.mongodb.net/<NOME_DO_BANCO>?retryWrites=true&w=majority&appName=<CLUSTER>"
 ```
 
-🔸 **Substitua:**
+**Substitua:**
 
 - `<USUARIO>` => Seu usuário do MongoDB Atlas
 - `<SENHA>` => Sua senha do MongoDB Atlas
