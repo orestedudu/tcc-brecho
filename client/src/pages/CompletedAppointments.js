@@ -34,7 +34,7 @@ export default function CompletedAppointments() {
   return (
     <div 
       style={{ 
-        backgroundImage: "url('/images/salao.jpg')",
+        backgroundImage: "url('/images/brecho.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         minHeight: '100vh',

@@ -35,7 +35,7 @@ export default function Register() {
   return (
     <div
       style={{
-        backgroundImage: "url('/images/salao.jpg')",
+        backgroundImage: "url('/images/brecho.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         minHeight: '100vh',

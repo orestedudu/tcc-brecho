@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const Usuario = require('../models/Usuario');
 const { JWT_SECRET } = require('../config');
 
 // Realizar login
@@ -8,7 +8,7 @@ const loginUser = async (req, res) => {
   const { email, senha } = req.body;
 
   try {
-    const usuario = await User.findOne({ email });
+    const usuario = await Usuario.findOne({ email });
 
     if (!usuario) {
       return res.status(400).json({ mensagem: 'Usuário não encontrado' });
@@ -38,7 +38,7 @@ const registerUser = async (req, res) => {
   const { nome, email, senha, tipo } = req.body;
 
   try {
-    const userExistente = await User.findOne({ email });
+    const userExistente = await Usuario.findOne({ email });
 
     if (userExistente) {
       return res.status(400).json({ mensagem: 'Usuário já cadastrado' });
@@ -47,7 +47,7 @@ const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const senhaHash = await bcrypt.hash(senha, salt);
 
-    const novoUsuario = new User({
+    const novoUsuario = new Usuario({
       nome,
       email,
       senha: senhaHash,
