@@ -1,3 +1,4 @@
+// App.jsx
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -9,7 +10,7 @@ import PendingAppointments from './pages/PendingAppointments';
 import CompletedAppointments from './pages/CompletedAppointments';
 import EditAppointment from './pages/EditAppointment';
 import Categoria from "./pages/Categoria";
-
+import Produtos from "./pages/produtos"; 
 
 export default function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/agendamentos/concluidos" element={token ? <CompletedAppointments /> : <Navigate to="/login" replace />} />
         <Route path="/agendamentos/editar/:id" element={token ? <EditAppointment /> : <Navigate to="/login" replace />} />
         <Route path="/categorias" element={<Categoria />} />
+        <Route path="/produtos" element={<Produtos />} /> 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

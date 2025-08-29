@@ -55,12 +55,30 @@ export default function Home() {
                 Ver agendamentos pendentes
               </Link>
             </li>
-            <li>
+            <li className="mb-3">
               <Link
                 to="/agendamentos/concluidos"
                 className="btn btn-success w-100"
               >
                 Ver agendamentos concluídos
+              </Link>
+            </li>
+            {/* Novo botão de adicionar categoria */}
+            <li className="mb-3">
+              <Link
+                to="/categorias"
+                className="btn btn-info w-100"
+              >
+                Adicionar Categoria
+              </Link>
+            </li>
+            {/* Novo botão de gerenciar produtos */}
+            <li className="mb-3">
+              <Link
+                to="/produtos"
+                className="btn btn-secondary w-100"
+              >
+                Gerenciar Produtos
               </Link>
             </li>
           </ul>
@@ -106,4 +124,3 @@ export default function Home() {
     </div>
   );
 }
-
