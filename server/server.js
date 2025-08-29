@@ -1,9 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./mongo');
-const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/usuarioRoutes');
 const categoriaRoutes = require('./routes/categoriaRoutes');
-const produtosRoutes = require('./routes/produtosRoutes');
+const produtosRoutes = require('./routes/produtoRoutes');
 const { PORT } = require('./config');
 
 connectDB();
@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use('/api/users', userRoutes);
 app.use('/api/produtos', produtosRoutes);
-app.use('/api/catregotia', categoriaRoutes);
+app.use('/api/categorias', categoriaRoutes);
 
 
 app.listen(PORT, () => console.log(`Servidor rodando na porta http://localhost:${PORT}`));

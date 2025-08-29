@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { loginUser, registerUser } = require('../controllers/userController');
 
-//Rotas de login e registro. Aqui também daria pra colocar rotas para exibição do perfil, aluno.
+//exibir informaçoes do perfil de usuario e editar informaçoes do usuario, e adicionar foto no perfil.
 router.post('/login', loginUser);
 router.post('/register', registerUser);
 
