@@ -1,27 +1,25 @@
-const Produto = require('../models/Produto');
+const Produto = require("../models/Produto");
 
-// Criar novo produto
-const createProduto = async (req, res) => {
-  const { categoria, preco, tamanho, cor, observacoes } = req.body;
-
+// Criar produto
+exports.criarProduto = async (req, res) => {
   try {
-    const newProduto = new Produto({
-      admin: req.userId,
-      categoria,
-      preco,
-      tamanho,
-      cor,
-      observacoes
-    });
-
-    await newProduto.save();
-    res.status(201).json(newProduto);
+    const { nome, preco, quantidade, categoria } = req.body;
+    const produto = new Produto({ nome, preco, quantidade, categoria });
+    await produto.save();
+    res.status(201).json(produto);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erro ao criar produto' });
+    res.status(400).json({ message: "Erro ao criar produto", error });
   }
 };
 
-module.exports ={
-  createProduto
+// Listar produtos com categoria
+exports.listarProdutos = async (req, res) => {
+  try {
+    const produtos = await Produto.find()
+      .populate("categoria", "nome descricao") // traz info da categoria
+      .sort({ createdAt: -1 });
+    res.json(produtos);
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao buscar produtos", error });
+  }
 };

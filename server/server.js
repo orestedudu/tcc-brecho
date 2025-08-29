@@ -1,10 +1,9 @@
-// backend/server.js
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./mongo');
 const userRoutes = require('./routes/userRoutes');
 const categoriaRoutes = require('./routes/categoriaRoutes');
-const produtoRoutes = require('./routes/produtoRoutes');
+const produtosRoutes = require('./routes/produtosRoutes');
 const { PORT } = require('./config');
 
 connectDB();
@@ -15,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/users', userRoutes);
-app.use('/api/produto', produtoRoutes);
+app.use('/api/produtos', produtosRoutes);
 app.use('/api/catregotia', categoriaRoutes);
 
 
