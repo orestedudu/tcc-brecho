@@ -6,10 +6,11 @@ const {
   atualizarCategoria,
   excluirCategoria
 } = require("../controllers/categoriaController");
+const authMiddleware = require("../middleware/authMiddleware");
 
-router.post("/criar", criarCategoria);
-router.get("/listar", listarCategorias);
-router.put("/atualizar/:id", atualizarCategoria);
-router.delete("/excluir/:id", excluirCategoria);
+router.post("/criar", authMiddleware, criarCategoria);
+router.get("/listar", authMiddleware, listarCategorias);
+router.put("/atualizar/:id", authMiddleware, atualizarCategoria);
+router.delete("/excluir/:id",authMiddleware, excluirCategoria);
 
 module.exports = router;
