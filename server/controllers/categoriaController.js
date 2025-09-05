@@ -10,7 +10,12 @@ exports.criarCategoria = async (req, res) => {
       return res.status(400).json({ mensagem: "O nome da categoria é obrigatório." });
     }
 
-    const novaCategoria = new Categoria({ nome });
+    
+    const novaCategoria = new Categoria({
+      admin: req.userId,
+      nome
+    });
+
     await novaCategoria.save();
 
     res.status(201).json(novaCategoria);
