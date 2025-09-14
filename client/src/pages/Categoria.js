@@ -61,7 +61,15 @@ export default function Categorias() {
   };
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
+    <div
+      className="p-8"
+      style={{
+        backgroundImage: "url('/images/brecho.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "100vh",
+      }}
+    >
       <h1 className="text-3xl font-bold mb-6 text-gray-800">
         Gerenciar Categorias
       </h1>
@@ -69,7 +77,7 @@ export default function Categorias() {
       {/* Formulário */}
       <form
         onSubmit={salvarCategoria}
-        className="bg-white p-6 rounded-2xl shadow-md mb-8 flex flex-col md:flex-row items-center gap-4"
+        className="bg-white/70 p-6 rounded-2xl shadow-md mb-8 flex flex-col md:flex-row items-center gap-4"
       >
         <input
           type="text"
@@ -121,12 +129,10 @@ export default function Categorias() {
           {categorias.map((cat) => (
             <div
               key={cat._id}
-              className="bg-white p-5 rounded-2xl shadow flex flex-col justify-between"
+              className="bg-white/70 p-5 rounded-2xl shadow flex flex-col justify-between"
             >
               <div>
-                <h3 className="text-lg font-bold text-gray-800">
-                  {cat.nome}
-                </h3>
+                <h3 className="text-lg font-bold text-gray-800">{cat.nome}</h3>
                 <p className="text-gray-600 text-sm">{cat.descricao}</p>
               </div>
               <div className="mt-4 flex gap-2">
