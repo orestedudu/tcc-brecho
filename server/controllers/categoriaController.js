@@ -4,16 +4,18 @@ const Categoria = require("../models/Categoria");
 // Criar uma nova categoria
 exports.criarCategoria = async (req, res) => {
   try {
-    const { nome } = req.body;
+    const { nome, descricao } = req.body;
 
     if (!nome) {
-      return res.status(400).json({ mensagem: "O nome da categoria é obrigatório." });
+      return res
+        .status(400)
+        .json({ mensagem: "O nome da categoria é obrigatório." });
     }
 
-    
     const novaCategoria = new Categoria({
       admin: req.userId,
-      nome
+      nome,
+      descricao,
     });
 
     await novaCategoria.save();
@@ -40,11 +42,17 @@ exports.listarCategorias = async (req, res) => {
 exports.atualizarCategoria = async (req, res) => {
   try {
     const { id } = req.params;
-    const { nome } = req.body;
+    const { nome, descricao } = req.body;
+
+    if (!nome) {
+      return res
+        .status(400)
+        .json({ mensagem: "O nome da categoria é obrigatório." });
+    }
 
     const categoriaAtualizada = await Categoria.findByIdAndUpdate(
       id,
-      { nome },
+      { nome, descricao },
       { new: true } // retorna a categoria atualizada
     );
 
@@ -76,4 +84,5 @@ exports.excluirCategoria = async (req, res) => {
     res.status(500).json({ mensagem: "Erro ao excluir categoria." });
   }
 };
+
 

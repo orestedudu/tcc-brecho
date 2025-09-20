@@ -3,14 +3,15 @@ const Produto = require("../models/Produto");
 // Criar produto
 exports.criarProduto = async (req, res) => {
   try {
-    const { nome, preco, quantidade, categoria } = req.body;
-    const produto = new Produto({ nome, preco, quantidade, categoria });
+    const {nome, preco, tamanho,cor,observacoes} = req.body;
+    const produto = new Produto({nome, preco, tamanho, cor, observacoes});
     await produto.save();
     res.status(201).json(produto);
   } catch (error) {
     res.status(400).json({ message: "Erro ao criar produto", error });
   }
 };
+
 
 // Listar produtos com categoria
 exports.listarProdutos = async (req, res) => {

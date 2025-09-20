@@ -1,158 +1,104 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
-export default function Categorias() {
-  const [nome, setNome] = useState("");
-  const [descricao, setDescricao] = useState("");
-  const [categorias, setCategorias] = useState([]);
-  const [editandoId, setEditandoId] = useState(null);
+export default function NewCategory() {
+  const [nome, setNome] = useState('');
+  const [descricao, setDescricao] = useState('');
+  const [mensagem, setMensagem] = useState('');
 
-  useEffect(() => {
-    buscarCategorias();
-  }, []);
+  const navigate = useNavigate();
 
-  const buscarCategorias = async () => {
-    try {
-      const res = await axios.get("http://localhost:3000/api/categorias");
-      setCategorias(res.data);
-    } catch (error) {
-      console.error("Erro ao buscar categorias", error);
-    }
-  };
-
-  const salvarCategoria = async (e) => {
+  const handleCriarCategoria = async (e) => {
     e.preventDefault();
+    setMensagem('');
+
     try {
-      if (editandoId) {
-        await axios.put(`http://localhost:3000/api/categorias/${editandoId}`, {
+      const token = localStorage.getItem('token'); // se você usar autenticação
+
+      const response = await fetch('http://localhost:7777/api/categorias/criar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
           nome,
           descricao,
-        });
-      } else {
-        await axios.post("http://localhost:3000/api/categorias", {
-          nome,
-          descricao,
-        });
-      }
-      setNome("");
-      setDescricao("");
-      setEditandoId(null);
-      buscarCategorias();
-    } catch (error) {
-      console.error("Erro ao salvar categoria", error);
-    }
-  };
+        }),
+      });
 
-  const editarCategoria = (categoria) => {
-    setNome(categoria.nome);
-    setDescricao(categoria.descricao);
-    setEditandoId(categoria._id);
-  };
+      const resData = await response.json();
 
-  const excluirCategoria = async (id) => {
-    if (window.confirm("Tem certeza que deseja excluir esta categoria?")) {
-      try {
-        await axios.delete(`http://localhost:3000/api/categorias/${id}`);
-        buscarCategorias();
-      } catch (error) {
-        console.error("Erro ao excluir categoria", error);
+      if (!response.ok) {
+        return setMensagem(resData.mensagem || 'Erro ao criar categoria');
       }
+
+      setMensagem('Categoria criada com sucesso!');
+
+      // Limpa os campos
+      setNome('');
+      setDescricao('');
+
+      // Redireciona para a lista de categorias (opcional)
+      navigate('/categorias');
+
+    } catch (err) {
+      console.error(err);
+      setMensagem('Erro ao conectar com o servidor');
     }
   };
 
   return (
-    <div
-      className="p-8"
-      style={{
+    <div 
+      style={{ 
         backgroundImage: "url('/images/brecho.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        minHeight: "100vh",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
       }}
+      className="d-flex justify-content-center align-items-center"
     >
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">
-        Gerenciar Categorias
-      </h1>
+      <div className="card shadow p-4 bg-light" style={{ maxWidth: '500px', width: '100%', opacity: 0.95 }}>
+        <h2 className="text-center text-primary mb-4">Cadastrar Categoria</h2>
 
-      {/* Formulário */}
-      <form
-        onSubmit={salvarCategoria}
-        className="bg-white/70 p-6 rounded-2xl shadow-md mb-8 flex flex-col md:flex-row items-center gap-4"
-      >
-        <input
-          type="text"
-          placeholder="Nome da categoria"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          className="border p-3 rounded w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          required
-        />
-        <input
-          type="text"
-          placeholder="Descrição"
-          value={descricao}
-          onChange={(e) => setDescricao(e.target.value)}
-          className="border p-3 rounded w-full md:w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-        <div className="flex gap-2">
-          <button
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow"
-          >
-            {editandoId ? "Salvar Alterações" : "Cadastrar"}
+        {mensagem && (
+          <div className={`alert ${mensagem.includes('sucesso') ? 'alert-success' : 'alert-danger'}`} role="alert">
+            {mensagem}
+          </div>
+        )}
+
+        <form onSubmit={handleCriarCategoria}>
+          <div className="mb-3">
+            <label className="form-label">Nome da Categoria:</label>
+            <input
+              type="text"
+              className="form-control"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="form-label">Descrição (opcional):</label>
+            <textarea
+              className="form-control"
+              rows="3"
+              value={descricao}
+              onChange={(e) => setDescricao(e.target.value)}
+            />
+          </div>
+
+          <button type="submit" className="btn btn-primary w-100">
+            Cadastrar
           </button>
-          {editandoId && (
-            <button
-              type="button"
-              onClick={() => {
-                setNome("");
-                setDescricao("");
-                setEditandoId(null);
-              }}
-              className="bg-gray-400 hover:bg-gray-500 text-white px-5 py-2 rounded-lg shadow"
-            >
-              Cancelar
-            </button>
-          )}
-        </div>
-      </form>
+        </form>
 
-      {/* Lista de categorias */}
-      <h2 className="text-2xl font-semibold mb-4 text-gray-700">
-        Categorias cadastradas
-      </h2>
+        <Link to="/" className="btn btn-secondary mt-4 w-100">
+          Voltar
+        </Link>
 
-      {categorias.length === 0 ? (
-        <p className="text-gray-500">Nenhuma categoria cadastrada.</p>
-      ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {categorias.map((cat) => (
-            <div
-              key={cat._id}
-              className="bg-white/70 p-5 rounded-2xl shadow flex flex-col justify-between"
-            >
-              <div>
-                <h3 className="text-lg font-bold text-gray-800">{cat.nome}</h3>
-                <p className="text-gray-600 text-sm">{cat.descricao}</p>
-              </div>
-              <div className="mt-4 flex gap-2">
-                <button
-                  onClick={() => editarCategoria(cat)}
-                  className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg"
-                >
-                  Editar
-                </button>
-                <button
-                  onClick={() => excluirCategoria(cat._id)}
-                  className="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-                >
-                  Excluir
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      </div>
     </div>
   );
 }
