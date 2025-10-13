@@ -21,12 +21,14 @@ export default function Login({ onLogin }) {
       });
 
       const data = await response.json();
+      console.log(data)
 
       if (!response.ok) {
         setMensagem(data.mensagem || 'Erro no login');
         return;
       }
 
+      localStorage.setItem('userName', data.usuario);
       localStorage.setItem('token', data.token);
       onLogin(data.token);
       navigate('/home');

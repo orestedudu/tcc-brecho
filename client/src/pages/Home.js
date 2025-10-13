@@ -63,7 +63,6 @@ export default function Home() {
                 Ver agendamentos concluídos
               </Link>
             </li>
-            {/* Novo botão de adicionar categoria */}
             <li className="mb-3">
               <Link
                 to="/categorias"
@@ -72,13 +71,20 @@ export default function Home() {
                 Adicionar Categoria
               </Link>
             </li>
-            {/* Novo botão de gerenciar produtos */}
             <li className="mb-3">
               <Link
                 to="/produtos"
                 className="btn btn-secondary w-100"
               >
                 Gerenciar Produtos
+              </Link>
+            </li>
+            <li className="mb-3">
+              <Link
+                to="/produtos/criar"
+                className="btn btn-outline-primary w-100"
+              >
+                Adicionar Produto
               </Link>
             </li>
           </ul>
@@ -100,10 +106,10 @@ export default function Home() {
             <i className="bi bi-person-circle"></i>
             {userName}
           </button>
-          <ul className="dropdown-menu dropdown-menu-end">
+          <ul className="dropdown-menu dropdown-menu-end btn btn-dark">
             <li>
               <button
-                className="dropdown-item text-danger"
+                className="dropdown-item text-white "
                 onClick={handleLogout}
               >
                 Sair
