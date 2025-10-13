@@ -25,8 +25,12 @@ const loginUser = async (req, res) => {
       JWT_SECRET,
       { expiresIn: '2h' }
     );
-
-    res.json({ mensagem: 'Login bem-sucedido', token });
+    console.log(usuario.nome)
+    res.json({ 
+       mensagem: 'Login bem-sucedido',
+       token,
+       usuario: usuario.nome
+        });
   } catch (erro) {
     console.error(erro);
     res.status(500).json({ mensagem: 'Erro no servidor' });
