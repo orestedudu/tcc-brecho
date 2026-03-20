@@ -7,7 +7,7 @@ const produtoSchema = new mongoose.Schema({
   preco: {type: Number, required: true},
   tamanho: {type: String, required: true},
   cor: {type: String, required: true},
-  observacoes: String,
+  observacoes: {type: String},
  
 }, {
   timestamps: true

@@ -38,31 +38,11 @@ export default function Home() {
         style={{ maxWidth: '400px', width: '100%', opacity: 0.95 }}
       >
         <h1 className="card-title text-center mb-4 text-primary">
-          Bem-vindo(a)!
+          Bem-vindo(a), {userName}!
         </h1>
         <nav>
           <ul className="list-unstyled">
-            <li className="mb-3">
-              <Link to="/agendar" className="btn btn-primary w-100">
-                Agendar um serviço
-              </Link>
-            </li>
-            <li className="mb-3">
-              <Link
-                to="/agendamentos/pendentes"
-                className="btn btn-warning w-100"
-              >
-                Ver agendamentos pendentes
-              </Link>
-            </li>
-            <li className="mb-3">
-              <Link
-                to="/agendamentos/concluidos"
-                className="btn btn-success w-100"
-              >
-                Ver agendamentos concluídos
-              </Link>
-            </li>
+          
             <li className="mb-3">
               <Link
                 to="/categorias"
@@ -74,17 +54,25 @@ export default function Home() {
             <li className="mb-3">
               <Link
                 to="/produtos"
-                className="btn btn-secondary w-100"
+                className="btn btn-outline-primary w-100"
               >
-                Gerenciar Produtos
+                Adicionar Produto
               </Link>
             </li>
             <li className="mb-3">
               <Link
-                to="/produtos/criar"
+                to="/produtos/listar"
                 className="btn btn-outline-primary w-100"
               >
-                Adicionar Produto
+                Listar Produtos
+              </Link>
+            </li>
+            <li className="mb-3">
+              <Link
+                to="/categorias/listar"
+                className="btn btn-outline-primary w-100"
+              >
+                Listar Categorias
               </Link>
             </li>
           </ul>

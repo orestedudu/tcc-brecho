@@ -30,8 +30,8 @@ exports.criarCategoria = async (req, res) => {
 // Listar todas as categorias
 exports.listarCategorias = async (req, res) => {
   try {
-    const categorias = await Categoria.find();
-    res.json(categorias);
+    const categoria = await Categoria.find();
+    res.json(categoria);
   } catch (error) {
     console.error(error);
     res.status(500).json({ mensagem: "Erro ao listar categorias." });

@@ -10,7 +10,10 @@ import PendingAppointments from './pages/PendingAppointments';
 import CompletedAppointments from './pages/CompletedAppointments';
 import EditAppointment from './pages/EditAppointment';
 import Categoria from "./pages/Categoria";
-import Produtos from "./pages/produtos"; 
+import Produto from "./pages/Produto"; 
+import ListarProduto from "./pages/ListarProduto";
+import ListarCategoria from "./pages/ListarCategoria";
+
 
 export default function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -26,7 +29,9 @@ export default function App() {
         <Route path="/agendamentos/concluidos" element={token ? <CompletedAppointments /> : <Navigate to="/login" replace />} />
         <Route path="/agendamentos/editar/:id" element={token ? <EditAppointment /> : <Navigate to="/login" replace />} />
         <Route path="/categorias" element={<Categoria />} />
-        <Route path="/produtos" element={<Produtos />} /> 
+        <Route path="/produtos" element={<Produto />} /> 
+        <Route path="/produtos/listar" element={<ListarProduto />} /> 
+        <Route path="/categorias/listar" element={<ListarCategoria />} /> 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

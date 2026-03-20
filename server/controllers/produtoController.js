@@ -31,22 +31,3 @@ exports.listarProdutos = async (req, res) => {
   }
 };
 
-
-
-// Listar agendamentos, permitindo o filtro de status (agendamento pendente, concluido etc)
-const getAppointments = async (req, res) => {
-  const userId = req.userId;
-  const { status } = req.query;
-
-  const filtro = { client: userId };
-  if (status) filtro.status = status;
-
-  try {
-    const agendamentos = await Appointment.find(filtro).sort({ date: 1 });
-    res.json(agendamentos);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erro ao buscar agendamentos' });
-  }
-};
-
