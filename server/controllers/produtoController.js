@@ -31,3 +31,50 @@ exports.listarProdutos = async (req, res) => {
   }
 };
 
+// atualizar produto
+exports.atualizarProduto = async (req, res) => {
+  const { id } = req.params;
+  const { nome, preco, tamanho, cor, observacoes } = req.body;
+
+  try {
+    const produto = await Produto.findOne({ _id: id, client: req.userId });
+
+    if (!produto) {
+      return res.status(404).json({ mensagem: 'Produto não encontrado' });
+    }
+
+    if (nome) produto.nome = nome;
+    if (preco) produto.preco = preco;
+    if (tamanho) produto.tamanho = nome;
+    if (cor) produto.cor = cor;
+    if (observacoes) produto.observacoes = observacoes;
+    
+
+    await produto.save();
+
+    res.json({ mensagem: 'Produto atualizado com sucesso' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensagem: 'Erro ao atualizar o produto' });
+  }
+};
+
+// Excluir produto
+exports.excluirProduto = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const produto = await Produto.findOneAndDelete({ _id: id, client: req.userId });
+
+    if (!produto) {
+      return res.status(404).json({ mensagem: 'Produto não encontrado' });
+    }
+
+    res.json({ mensagem: 'Produto deletado com sucesso' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mensagem: 'Erro ao deletar produto' });
+  }
+};
+
+
