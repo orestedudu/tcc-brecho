@@ -9,6 +9,7 @@ export default function ListarCategorias() {
         const fetchCategorias = async () => {
             try {
                 const token = localStorage.getItem('token');
+
                 const response = await fetch('http://localhost:7777/api/categorias/listar', {
                     method: 'GET',
                     headers: {
@@ -20,7 +21,7 @@ export default function ListarCategorias() {
                 const data = await response.json();
 
                 if (!response.ok) {
-                    setMensagem(data.mensagem || 'Erro ao buscar produtos');
+                    setMensagem(data.mensagem || 'Erro ao buscar categorias');
                 } else {
                     setCategorias(data);
                 }
@@ -32,6 +33,38 @@ export default function ListarCategorias() {
 
         fetchCategorias();
     }, []);
+
+    // 🗑️ FUNÇÃO EXCLUIR
+    const excluirCategoria = async (id) => {
+        const confirmar = window.confirm('Tem certeza que deseja excluir esta categoria?');
+
+        if (!confirmar) return;
+
+        try {
+            const token = localStorage.getItem('token');
+
+            const response = await fetch(`http://localhost:7777/api/categorias/excluir/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setMensagem(data.mensagem || 'Erro ao excluir categoria');
+            } else {
+                setMensagem('Categoria excluída com sucesso');
+
+                // remove da lista sem recarregar
+                setCategorias(categorias.filter(cat => cat._id !== id));
+            }
+        } catch (err) {
+            console.error(err);
+            setMensagem('Erro ao conectar com o servidor');
+        }
+    };
 
     return (
         <div
@@ -59,6 +92,7 @@ export default function ListarCategorias() {
                                 <tr>
                                     <th>Nome</th>
                                     <th>Descrição</th>
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,16 +100,34 @@ export default function ListarCategorias() {
                                     <tr key={categoria._id}>
                                         <td>{categoria.nome}</td>
                                         <td>{categoria.descricao}</td>
+                                        <td>
+                                            {/* ✏️ EDITAR */}
+                                            <Link
+                                                to={`/categorias/editar/${categoria._id}`}
+                                                className="btn btn-warning btn-sm me-2"
+                                            >
+                                                Editar
+                                            </Link>
+
+                                            {/* 🗑️ EXCLUIR */}
+                                            <button
+                                                onClick={() => excluirCategoria(categoria._id)}
+                                                className="btn btn-danger btn-sm"
+                                            >
+                                                Excluir
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
                 ) : (
-                    <p className="text-center">Nenhuma Categoria Cadastrada.</p>
+                    <p className="text-center">Nenhuma categoria cadastrada.</p>
                 )}
 
-                <Link to="/produtos" className="btn btn-primary w-100 mt-4">
+                {/* ⚠️ Ajustei aqui também */}
+                <Link to="/categorias/cadastrar" className="btn btn-primary w-100 mt-4">
                     Cadastrar Nova Categoria
                 </Link>
 

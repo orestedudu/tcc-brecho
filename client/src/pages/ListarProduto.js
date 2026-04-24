@@ -33,6 +33,37 @@ export default function ListarProdutos() {
         fetchProdutos();
     }, []);
 
+    const excluirProduto = async (id) => {
+    const confirmar = window.confirm('Tem certeza que deseja excluir este produto?');
+
+    if (!confirmar) return;
+
+    try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`http://localhost:7777/api/produtos/excluir/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            setMensagem(data.mensagem || 'Erro ao excluir produto');
+        } else {
+            setMensagem('Produto excluído com sucesso');
+
+            // remove da lista sem recarregar
+            setProdutos(produtos.filter(prod => prod._id !== id));
+        }
+    } catch (err) {
+        console.error(err);
+        setMensagem('Erro ao conectar com o servidor');
+    }
+};
+
     return (
         <div
             style={{
@@ -64,17 +95,35 @@ export default function ListarProdutos() {
                                     <th>Observações</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {produtos.map((produto) => (
-                                    <tr key={produto._id}>
-                                        <td>{produto.nome}</td>
-                                        <td>{produto.preco}</td>
-                                        <td>{produto.tamanho}</td>
-                                        <td>{produto.cor}</td>
-                                        <td>{produto.observacoes || '-'}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
+                           <tbody>
+    {produtos.map((produto) => (
+        <tr key={produto._id}>
+            <td>{produto.nome}</td>
+            <td>{produto.preco}</td>
+            <td>{produto.tamanho}</td>
+            <td>{produto.cor}</td>
+            <td>{produto.observacoes || '-'}</td>
+            <td>
+                {/* ✏️ EDITAR */}
+                <Link
+                    to={`/produtos/editar/${produto._id}`}
+                    className="btn btn-warning btn-sm me-2"
+                >
+                    Editar
+                </Link>
+
+                {/* 🗑️ EXCLUIR */}
+                <button
+                                    onClick={() => excluirProduto(produto._id)}
+
+                    className="btn btn-danger btn-sm"
+                >
+                    Excluir
+                </button>
+            </td>
+        </tr>
+    ))}
+</tbody>
                         </table>
                     </div>
                 ) : (

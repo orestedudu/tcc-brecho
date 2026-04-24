@@ -45,7 +45,7 @@ export default function Home() {
           
             <li className="mb-3">
               <Link
-                to="/categorias"
+                to="/categorias/cadastrar"
                 className="btn btn-info w-100"
               >
                 Adicionar Categoria
@@ -53,7 +53,7 @@ export default function Home() {
             </li>
             <li className="mb-3">
               <Link
-                to="/produtos"
+                to="/produtos/cadastrar"
                 className="btn btn-outline-primary w-100"
               >
                 Adicionar Produto

@@ -13,6 +13,9 @@ import Categoria from "./pages/Categoria";
 import Produto from "./pages/Produto"; 
 import ListarProduto from "./pages/ListarProduto";
 import ListarCategoria from "./pages/ListarCategoria";
+import EditarCategoria from "./pages/EditarCategoria";
+import EditarProduto from "./pages/EditarProduto";
+
 
 
 export default function App() {
@@ -28,10 +31,12 @@ export default function App() {
         <Route path="/agendamentos/pendentes" element={token ? <PendingAppointments /> : <Navigate to="/login" replace />} />
         <Route path="/agendamentos/concluidos" element={token ? <CompletedAppointments /> : <Navigate to="/login" replace />} />
         <Route path="/agendamentos/editar/:id" element={token ? <EditAppointment /> : <Navigate to="/login" replace />} />
-        <Route path="/categorias" element={<Categoria />} />
-        <Route path="/produtos" element={<Produto />} /> 
-        <Route path="/produtos/listar" element={<ListarProduto />} /> 
-        <Route path="/categorias/listar" element={<ListarCategoria />} /> 
+        <Route path="/categorias/cadastrar" element={token ? <Categoria /> : <Navigate to="/login" replace />} />
+        <Route path="/categorias/listar" element={token ? <ListarCategoria /> : <Navigate to="/login" replace />} />
+        <Route path="/categorias/editar/:id" element={token ? <EditarCategoria /> : <Navigate to="/login" replace />} />
+        <Route path="/produtos/cadastrar" element={token ? <Produto /> : <Navigate to="/login" replace />} />
+        <Route path="/produtos/listar" element={token ? <ListarProduto /> : <Navigate to="/login" replace />} />
+        <Route path="/produtos/editar/:id" element={token ? <EditarProduto /> : <Navigate to="/login" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
