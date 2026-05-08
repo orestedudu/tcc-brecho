@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function NewProduct() {
@@ -7,16 +7,46 @@ export default function NewProduct() {
   const [tamanho, setTamanho] = useState('');
   const [cor, setCor] = useState('');
   const [observacoes, setObservacoes] = useState('');
+
+  const [categoria, setCategoria] = useState('');
+  const [categorias, setCategorias] = useState([]);
+
   const [mensagem, setMensagem] = useState('');
 
   const navigate = useNavigate();
+
+  // Buscar categorias
+  useEffect(() => {
+    const buscarCategorias = async () => {
+      try {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch('http://localhost:7777/api/categorias/listar', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          setCategorias(data);
+        }
+
+      } catch (error) {
+        console.error('Erro ao buscar categorias:', error);
+      }
+    };
+
+    buscarCategorias();
+  }, []);
 
   const handleCriarProduto = async (e) => {
     e.preventDefault();
     setMensagem('');
 
     try {
-      const token = localStorage.getItem('token'); // se usar autenticação
+      const token = localStorage.getItem('token');
 
       const response = await fetch('http://localhost:7777/api/produtos/criar', {
         method: 'POST',
@@ -30,6 +60,7 @@ export default function NewProduct() {
           tamanho,
           cor,
           observacoes,
+          categoria,
         }),
       });
 
@@ -41,14 +72,14 @@ export default function NewProduct() {
 
       setMensagem('Produto criado com sucesso!');
 
-      // Limpa os campos
+      // Limpar campos
       setNome('');
       setPreco('');
       setTamanho('');
       setCor('');
       setObservacoes('');
+      setCategoria('');
 
-      // Redireciona para a lista de produtos (ajuste conforme sua rota)
       navigate('/');
 
     } catch (err) {
@@ -58,8 +89,8 @@ export default function NewProduct() {
   };
 
   return (
-    <div 
-      style={{ 
+    <div
+      style={{
         backgroundImage: "url('/images/brecho.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -67,18 +98,38 @@ export default function NewProduct() {
       }}
       className="d-flex justify-content-center align-items-center"
     >
-      <div className="card shadow p-4 bg-light" style={{ maxWidth: '500px', width: '100%', opacity: 0.95 }}>
-        <h2 className="text-center text-primary mb-4">Cadastrar Produto</h2>
+      <div
+        className="card shadow p-4 bg-light"
+        style={{
+          maxWidth: '500px',
+          width: '100%',
+          opacity: 0.95
+        }}
+      >
+        <h2 className="text-center text-primary mb-4">
+          Cadastrar Produto
+        </h2>
 
         {mensagem && (
-          <div className={`alert ${mensagem.includes('sucesso') ? 'alert-success' : 'alert-danger'}`} role="alert">
+          <div
+            className={`alert ${
+              mensagem.includes('sucesso')
+                ? 'alert-success'
+                : 'alert-danger'
+            }`}
+            role="alert"
+          >
             {mensagem}
           </div>
         )}
 
         <form onSubmit={handleCriarProduto}>
+
           <div className="mb-3">
-            <label className="form-label">Nome do Produto:</label>
+            <label className="form-label">
+              Nome do Produto:
+            </label>
+
             <input
               type="text"
               className="form-control"
@@ -88,8 +139,35 @@ export default function NewProduct() {
             />
           </div>
 
+          {/* SELECT DE CATEGORIAS */}
           <div className="mb-3">
-            <label className="form-label">Preço (R$):</label>
+            <label className="form-label">
+              Categoria:
+            </label>
+
+            <select
+              className="form-select"
+              value={categoria}
+              onChange={(e) => setCategoria(e.target.value)}
+              required
+            >
+              <option value="">
+                Selecione uma categoria
+              </option>
+
+              {categorias.map((cat) => (
+                <option key={cat._id} value={cat._id}>
+                  {cat.nome}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">
+              Preço (R$):
+            </label>
+
             <input
               type="number"
               step="0.01"
@@ -101,7 +179,10 @@ export default function NewProduct() {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Tamanho:</label>
+            <label className="form-label">
+              Tamanho:
+            </label>
+
             <input
               type="text"
               className="form-control"
@@ -112,7 +193,10 @@ export default function NewProduct() {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Cor:</label>
+            <label className="form-label">
+              Cor:
+            </label>
+
             <input
               type="text"
               className="form-control"
@@ -123,7 +207,10 @@ export default function NewProduct() {
           </div>
 
           <div className="mb-4">
-            <label className="form-label">Observações (opcional):</label>
+            <label className="form-label">
+              Observações:
+            </label>
+
             <textarea
               className="form-control"
               rows="3"
@@ -132,12 +219,20 @@ export default function NewProduct() {
             />
           </div>
 
-          <button type="submit" className="btn btn-primary w-100">
+          <Link
+            type="submit"
+            className="btn btn-primary w-100"
+            to="/produtos/listar"
+          >
             Cadastrar
-          </button>
+          </Link>
+
         </form>
 
-        <Link to="/" className="btn btn-secondary mt-4 w-100">
+        <Link
+          to="/"
+          className="btn btn-secondary mt-4 w-100"
+        >
           Voltar
         </Link>
       </div>
