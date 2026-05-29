@@ -1,5 +1,6 @@
 // server/controllers/categoriaController.js
 const Categoria = require("../models/Categoria");
+const Produto = require("../models/Produto");
 
 // Criar uma nova categoria
 exports.criarCategoria = async (req, res) => {
@@ -30,11 +31,34 @@ exports.criarCategoria = async (req, res) => {
 // Listar todas as categorias
 exports.listarCategorias = async (req, res) => {
   try {
-    const categoria = await Categoria.find();
-    res.json(categoria);
+
+    const categorias = await Categoria.find({
+      admin: req.userId
+    }).sort({ createdAt: -1 });
+
+    const categoriasComQuantidade = await Promise.all(
+      categorias.map(async (categoria) => {
+
+        const quantidadeProdutos = await Produto.countDocuments({
+          categoria: categoria._id
+        });
+
+        return {
+          ...categoria._doc,
+          quantidadeProdutos
+        };
+      })
+    );
+
+    // console.log(categoriasComQuantidade);
+    res.json(categoriasComQuantidade);
+
   } catch (error) {
     console.error(error);
-    res.status(500).json({ mensagem: "Erro ao listar categorias." });
+
+    res.status(500).json({
+      mensagem: "Erro ao listar categorias."
+    });
   }
 };
 

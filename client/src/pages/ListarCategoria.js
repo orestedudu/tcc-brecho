@@ -92,6 +92,7 @@ export default function ListarCategorias() {
                                 <tr>
                                     <th>Nome</th>
                                     <th>Descrição</th>
+                                    <th>Produtos Vinculados</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
@@ -99,7 +100,14 @@ export default function ListarCategorias() {
                                 {categorias.map((categoria) => (
                                     <tr key={categoria._id}>
                                         <td>{categoria.nome}</td>
-                                        <td>{categoria.descricao}</td>
+                                        <td>
+                                            {categoria.descricao || 'Sem descrição'}
+                                        </td>
+                                        <td>
+                                            <span className="badge bg-primary">
+                                                {categoria.quantidadeProdutos}
+                                            </span>
+                                        </td>
                                         <td>
                                             {/* ✏️ EDITAR */}
                                             <Link

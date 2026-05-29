@@ -89,7 +89,7 @@ export default function NewCategory() {
             />
           </div>
 
-          <Link type="submit" className="btn btn-primary w-100" to="/categorias/listar">
+          <Link className="btn btn-primary w-100" to="/categorias/listar">
             Cadastrar
           </Link>
         </form>
