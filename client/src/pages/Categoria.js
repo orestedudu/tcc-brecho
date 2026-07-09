@@ -40,7 +40,7 @@ export default function NewCategory() {
       setDescricao('');
 
       // Redireciona para a lista de categorias (opcional)
-      navigate('/categorias');
+      navigate('/categorias/listar');
 
     } catch (err) {
       console.error(err);
@@ -49,8 +49,8 @@ export default function NewCategory() {
   };
 
   return (
-    <div 
-      style={{ 
+    <div
+      style={{
         backgroundImage: "url('/images/brecho.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -89,9 +89,12 @@ export default function NewCategory() {
             />
           </div>
 
-          <Link className="btn btn-primary w-100" to="/categorias/listar">
+          <button
+            type="submit"
+            className="btn btn-primary w-100"
+          >
             Cadastrar
-          </Link>
+          </button>
         </form>
 
         <Link to="/" className="btn btn-secondary mt-4 w-100">

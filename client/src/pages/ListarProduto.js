@@ -130,7 +130,7 @@ export default function ListarProdutos() {
                     <p className="text-center">Nenhum produto cadastrado.</p>
                 )}
 
-                <Link to="/produtos" className="btn btn-primary w-100 mt-4">
+                <Link to="/produtos/cadastrar" className="btn btn-primary w-100 mt-4">
                     Cadastrar Novo Produto
                 </Link>
 

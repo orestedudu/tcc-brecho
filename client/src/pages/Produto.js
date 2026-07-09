@@ -112,11 +112,10 @@ export default function NewProduct() {
 
         {mensagem && (
           <div
-            className={`alert ${
-              mensagem.includes('sucesso')
+            className={`alert ${mensagem.includes('sucesso')
                 ? 'alert-success'
                 : 'alert-danger'
-            }`}
+              }`}
             role="alert"
           >
             {mensagem}
@@ -219,13 +218,12 @@ export default function NewProduct() {
             />
           </div>
 
-          <Link
+          <button
             type="submit"
             className="btn btn-primary w-100"
-            to="/produtos/listar"
           >
             Cadastrar
-          </Link>
+          </button>
 
         </form>
 
