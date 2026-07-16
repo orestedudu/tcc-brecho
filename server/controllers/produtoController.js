@@ -33,11 +33,52 @@ exports.criarProduto = async (req, res) => {
 // Listar produtos com categoria
 exports.listarProdutos = async (req, res) => {
   try {
-    const produtos = await Produto.find()
-      .sort({ createdAt: -1 });
+
+    const { categoria, ordenacao } = req.query;
+
+    const filtro = {
+      admin: req.userId
+    };
+
+    // Filtrar por categoria
+    if (categoria) {
+      filtro.categoria = categoria;
+    }
+
+    // Ordenação padrão
+    let ordenar = {
+      nome: 1
+    };
+
+    // Ordenações disponíveis
+    switch (ordenacao) {
+
+      case "precoAsc":
+        ordenar = { preco: 1 };
+        break;
+
+      case "precoDesc":
+        ordenar = { preco: -1 };
+        break;
+
+      default:
+        ordenar = { nome: 1 };
+    }
+
+    const produtos = await Produto.find(filtro)
+      .populate("categoria", "nome")
+      .sort(ordenar);
+
     res.json(produtos);
+
   } catch (error) {
-    res.status(500).json({ message: "Erro ao buscar produtos", error });
+
+    console.error(error);
+
+    res.status(500).json({
+      mensagem: "Erro ao buscar produtos."
+    });
+
   }
 };
 
