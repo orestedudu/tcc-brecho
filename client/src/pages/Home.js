@@ -144,7 +144,7 @@ export default function Home() {
           position: sticky;
           top: 0;
           z-index: 10;
-          background: rgba(255,253,251,0.55);
+          background: rgba(255, 254, 251, 0.55);
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
           border-bottom: 1px solid rgba(255,255,255,0.4);
@@ -282,7 +282,7 @@ export default function Home() {
           display: flex;
           align-items: center;
           gap: 14px;
-          background: var(--blush);
+          background: var(--brown);
           border: 1.5px dashed rgba(127,85,57,0.45);
           clip-path: polygon(0 50%, 16% 0%, 100% 0%, 100% 100%, 16% 100%);
           padding: 20px 22px 20px 46px;
@@ -323,7 +323,7 @@ export default function Home() {
         .bh-tag-icon svg { width: 19px; height: 19px; }
 
         .bh-tag-label { display: block; font-weight: 700; font-size: 15px; line-height: 1.3; }
-        .bh-tag-desc { font-size: 12.5px; color: var(--brown-light); margin-top: 2px; }
+        .bh-tag-desc { font-size: 12.5px; color: var(--white); margin-top: 2px; }
 
         .bh-tag:hover {
           transform: translateY(-3px) rotate(-0.6deg);

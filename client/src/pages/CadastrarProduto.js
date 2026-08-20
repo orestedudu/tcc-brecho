@@ -455,7 +455,7 @@ export default function NewProduct() {
                 id="observacoes"
                 className="bk-textarea"
                 rows="3"
-                placeholder="detalhes, estado da peça, marca..."
+                placeholder="detalhes, marca..."
                 value={observacoes}
                 onChange={(e) => setObservacoes(e.target.value)}
               />

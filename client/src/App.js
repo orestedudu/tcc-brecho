@@ -5,12 +5,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import NewAppointment from './pages/NewAppointment';
-import PendingAppointments from './pages/PendingAppointments';
-import CompletedAppointments from './pages/CompletedAppointments';
-import EditAppointment from './pages/EditAppointment';
-import Categoria from "./pages/Categoria";
-import Produto from "./pages/Produto"; 
+import Categoria from "./pages/CadastrarCategoria";
+import Produto from "./pages/CadastrarProduto"; 
 import ListarProduto from "./pages/ListarProduto";
 import ListarCategoria from "./pages/ListarCategoria";
 import EditarCategoria from "./pages/EditarCategoria";
