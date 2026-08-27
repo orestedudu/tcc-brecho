@@ -10,6 +10,7 @@ export default function EditarProduto() {
     const [tamanho, setTamanho] = useState('');
     const [cor, setCor] = useState('');
     const [observacoes, setObservacoes] = useState('');
+    const [estadoConservacao, setEstadoConservacao] = useState('');
     const [mensagem, setMensagem] = useState('');
     const [carregando, setCarregando] = useState(false);
 
@@ -45,6 +46,7 @@ export default function EditarProduto() {
                 setTamanho(produto.tamanho);
                 setCor(produto.cor);
                 setObservacoes(produto.observacoes || '');
+                setEstadoConservacao(produto.estadoConservacao || '');
 
             } catch (err) {
                 console.error(err);
@@ -74,7 +76,8 @@ export default function EditarProduto() {
                     preco,
                     tamanho,
                     cor,
-                    observacoes
+                    observacoes,
+                    estadoConservacao
                 }),
             });
 
@@ -233,6 +236,7 @@ export default function EditarProduto() {
                 }
 
                 .bk-input,
+                .bk-select,
                 .bk-textarea {
                     width: 100%;
                     box-sizing: border-box;
@@ -253,7 +257,17 @@ export default function EditarProduto() {
                     font-family: 'DM Sans', sans-serif;
                 }
 
+                .bk-select {
+                    appearance: none;
+                    -webkit-appearance: none;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%237f5539' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+                    background-repeat: no-repeat;
+                    background-position: right 14px center;
+                    padding-right: 36px;
+                }
+
                 .bk-input:focus,
+                .bk-select:focus,
                 .bk-textarea:focus {
                     border-color: #7f5539;
                     box-shadow: 0 0 0 3px rgba(127, 85, 57, 0.15);
@@ -355,6 +369,22 @@ export default function EditarProduto() {
                                 onChange={(e) => setNome(e.target.value)}
                                 required
                             />
+                        </div>
+
+                        <div className="bk-group">
+                            <label htmlFor="estadoConservacao" className="bk-label">Estado de conservação</label>
+                            <select
+                                id="estadoConservacao"
+                                className="bk-select"
+                                value={estadoConservacao}
+                                onChange={(e) => setEstadoConservacao(e.target.value)}
+                                required
+                            >
+                                <option value="">Selecione o estado</option>
+                                <option value="novo">Novo</option>
+                                <option value="semi-novo">Semi-novo</option>
+                                <option value="usado">Usado</option>
+                            </select>
                         </div>
 
                         <div className="bk-group">

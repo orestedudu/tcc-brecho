@@ -3,7 +3,7 @@ const Produto = require("../models/Produto");
 // Criar produto
 exports.criarProduto = async (req, res) => {
   try {
-    const { nome, preco, tamanho, cor, observacoes, categoria } = req.body;
+    const { nome, preco, tamanho, cor, observacoes, categoria, estadoConservacao } = req.body;
     const produto = new Produto({
       admin: req.userId,
       categoria,
@@ -11,7 +11,8 @@ exports.criarProduto = async (req, res) => {
       preco,
       tamanho,
       cor,
-      observacoes
+      observacoes,
+      estadoConservacao
     });
     if (!categoria) {
       return res.status(400).json({
@@ -31,10 +32,11 @@ exports.criarProduto = async (req, res) => {
 
 
 // Listar produtos com categoria
+// Listar produtos com categoria
 exports.listarProdutos = async (req, res) => {
   try {
 
-    const { categoria, ordenacao } = req.query;
+    const { categoria, estadoConservacao, ordenacao } = req.query;
 
     const filtro = {
       admin: req.userId
@@ -43,6 +45,11 @@ exports.listarProdutos = async (req, res) => {
     // Filtrar por categoria
     if (categoria) {
       filtro.categoria = categoria;
+    }
+
+    // Filtrar por estado de conservação
+    if (estadoConservacao) {
+      filtro.estadoConservacao = estadoConservacao;
     }
 
     // Ordenação padrão
@@ -85,7 +92,7 @@ exports.listarProdutos = async (req, res) => {
 // atualizar produto
 exports.atualizarProduto = async (req, res) => {
   const { id } = req.params;
-  const { nome, preco, tamanho, cor, observacoes } = req.body;
+  const { nome, preco, tamanho, cor, observacoes, estadoConservacao } = req.body;
 
   if (!nome) {
     return res
@@ -97,7 +104,7 @@ exports.atualizarProduto = async (req, res) => {
 
     const produto = await Produto.findByIdAndUpdate(
       id,
-      { nome, preco, tamanho, cor, observacoes },
+      { nome, preco, tamanho, cor, observacoes, estadoConservacao },
       { new: true } // retorna a categoria atualizada
     );
 
@@ -110,6 +117,8 @@ exports.atualizarProduto = async (req, res) => {
     if (tamanho) produto.tamanho = tamanho;
     if (cor) produto.cor = cor;
     if (observacoes) produto.observacoes = observacoes;
+    if (estadoConservacao) produto.estadoConservacao = estadoConservacao;
+
 
 
     await produto.save();

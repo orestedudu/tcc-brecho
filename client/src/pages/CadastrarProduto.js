@@ -10,6 +10,7 @@ export default function NewProduct() {
 
   const [categoria, setCategoria] = useState('');
   const [categorias, setCategorias] = useState([]);
+  const [estadoConservacao, setEstadoConservacao] = useState('');
 
   const [mensagem, setMensagem] = useState('');
   const [carregando, setCarregando] = useState(false);
@@ -63,6 +64,7 @@ export default function NewProduct() {
           cor,
           observacoes,
           categoria,
+          estadoConservacao,
         }),
       });
 
@@ -83,6 +85,7 @@ export default function NewProduct() {
       setCor('');
       setObservacoes('');
       setCategoria('');
+      setEstadoConservacao('');
 
       navigate('/');
 
@@ -401,6 +404,22 @@ export default function NewProduct() {
                     {cat.nome}
                   </option>
                 ))}
+              </select>
+            </div>
+
+            <div className="bk-group">
+              <label htmlFor="estadoConservacao" className="bk-label">Estado de conservação</label>
+              <select
+                id="estadoConservacao"
+                className="bk-select"
+                value={estadoConservacao}
+                onChange={(e) => setEstadoConservacao(e.target.value)}
+                required
+              >
+                <option value="">Selecione o estado</option>
+                <option value="novo">Novo</option>
+                <option value="semi-novo">Semi-novo</option>
+                <option value="usado">Usado</option>
               </select>
             </div>
 

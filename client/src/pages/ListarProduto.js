@@ -1,11 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+const ESTADOS_LABEL = {
+    novo: 'Novo',
+    'semi-novo': 'Semi-novo',
+    usado: 'Usado',
+};
+
 export default function ListarProdutos() {
 
     const [produtos, setProdutos] = useState([]);
     const [categorias, setCategorias] = useState([]);
     const [categoriaSelecionada, setCategoriaSelecionada] = useState('');
+    const [estadoSelecionado, setEstadoSelecionado] = useState('');
     const [mensagem, setMensagem] = useState('');
     const [ordenacao, setOrdenacao] = useState("nome");
 
@@ -53,6 +60,9 @@ export default function ListarProdutos() {
             if (categoriaSelecionada) {
                 url += `&categoria=${categoriaSelecionada}`;
             }
+            if (estadoSelecionado) {
+                url += `&estadoConservacao=${estadoSelecionado}`;
+            }
             const response = await fetch(url, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -87,7 +97,7 @@ export default function ListarProdutos() {
     // ==========================
     useEffect(() => {
         buscarProdutos();
-    }, [categoriaSelecionada, ordenacao]);
+    }, [categoriaSelecionada, estadoSelecionado, ordenacao]);
 
     // ==========================
     // Excluir produto
@@ -241,13 +251,9 @@ export default function ListarProdutos() {
 
                 .bk-filtros {
                     display: grid;
-                    grid-template-columns: 1fr 1fr;
+                    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
                     gap: 16px;
                     margin-bottom: 26px;
-                }
-
-                @media (max-width: 560px) {
-                    .bk-filtros { grid-template-columns: 1fr; }
                 }
 
                 .bk-label {
@@ -293,7 +299,7 @@ export default function ListarProdutos() {
                     width: 100%;
                     border-collapse: collapse;
                     font-size: 13.5px;
-                    min-width: 640px;
+                    min-width: 720px;
                 }
 
                 .bk-table thead th {
@@ -325,6 +331,31 @@ export default function ListarProdutos() {
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
+                }
+
+                .bk-estado-badge {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 3px 11px;
+                    border-radius: 999px;
+                    font-size: 12px;
+                    font-weight: 700;
+                    white-space: nowrap;
+                }
+
+                .bk-estado-novo {
+                    background: rgba(92, 122, 82, 0.12);
+                    color: #4a6440;
+                }
+
+                .bk-estado-semi-novo {
+                    background: rgba(127, 85, 57, 0.12);
+                    color: #7f5539;
+                }
+
+                .bk-estado-usado {
+                    background: rgba(161, 68, 59, 0.12);
+                    color: #a1443b;
                 }
 
                 .bk-acoes {
@@ -492,6 +523,21 @@ export default function ListarProdutos() {
                         </div>
 
                         <div>
+                            <label className="bk-label" htmlFor="estado-filtro">Estado de conservação</label>
+                            <select
+                                id="estado-filtro"
+                                className="bk-select"
+                                value={estadoSelecionado}
+                                onChange={(e) => setEstadoSelecionado(e.target.value)}
+                            >
+                                <option value="">Todos os estados</option>
+                                <option value="novo">Novo</option>
+                                <option value="semi-novo">Semi-novo</option>
+                                <option value="usado">Usado</option>
+                            </select>
+                        </div>
+
+                        <div>
                             <label className="bk-label" htmlFor="ordenacao-filtro">Ordenar por</label>
                             <select
                                 id="ordenacao-filtro"
@@ -512,6 +558,7 @@ export default function ListarProdutos() {
                                 <thead>
                                     <tr>
                                         <th>Nome</th>
+                                        <th>Estado</th>
                                         <th>Preço</th>
                                         <th>Tamanho</th>
                                         <th>Cor</th>
@@ -523,6 +570,13 @@ export default function ListarProdutos() {
                                     {produtos.map((produto) => (
                                         <tr key={produto._id}>
                                             <td data-label="Nome">{produto.nome}</td>
+                                            <td data-label="Estado">
+                                                {produto.estadoConservacao ? (
+                                                    <span className={`bk-estado-badge bk-estado-${produto.estadoConservacao}`}>
+                                                        {ESTADOS_LABEL[produto.estadoConservacao] || produto.estadoConservacao}
+                                                    </span>
+                                                ) : '-'}
+                                            </td>
                                             <td data-label="Preço">R$ {Number(produto.preco).toFixed(2)}</td>
                                             <td data-label="Tamanho">{produto.tamanho}</td>
                                             <td data-label="Cor">{produto.cor}</td>
