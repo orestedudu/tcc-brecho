@@ -1,6 +1,6 @@
 const Produto = require("../models/Produto");
 
-// Criar produto
+// Criar o produto
 exports.criarProduto = async (req, res) => {
   try {
     const { nome, preco, tamanho, cor, observacoes, categoria, estadoConservacao } = req.body;
