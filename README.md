@@ -139,11 +139,11 @@ O frontend estará disponível em: `http://localhost:3000`.
 - **Autenticação:**
   - Login e cadastro com segurança usando JWT e bcrypt.
 
-- **Agendamento:**
+- **Cadstro:**
   - Criar, listar, editar e excluir agendamentos.
 
 - **Filtros:**
-  - Filtragem de agendamentos por status (pendente, concluído).
+  - Filtragem de produtos por (menor preço, Maior preço e estado de concervação)
 
 - **Proteção de rotas:**
   - Apenas usuários autenticados acessam funcionalidades.
@@ -154,23 +154,12 @@ O frontend estará disponível em: `http://localhost:3000`.
 - As rotas da API são protegidas usando **JWT** (JSON Web Token).
 - Apenas usuários autenticados podem criar, editar, excluir ou visualizar seus próprios agendamentos.
 
-## Como Usar no TCC?
 
-- Este projeto é uma **base funcional**, onde você pode:
-  - Alterar o tema (ex.: barbearia, consultório, academia, petshop).
-  - Adicionar novos campos (ex.: telefone, endereço, nome do cliente).
-  - Implementar novas funcionalidades (ex.: envio de email, painel admin, confirmação de agendamento).
-  - Melhorar o layout, responsividade e experiência do usuário.
 
 ## Licença
 
-Este projeto é de uso **livre para fins acadêmicos e educacionais**.
+Este projeto é de uso **livre**.
 
 ## Desenvolvido por
 
-**Prof. Jardel Gonçalves**  
-Instituto Federal Catarinense (IFC).
-
-## Suporte
-
-Em caso de dúvidas, procure o professor em sala ou pelos canais oficiais do curso (Somente orientandos).
+**Oreste Eduardo Machado dos Santos**
