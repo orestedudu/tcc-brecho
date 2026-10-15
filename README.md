@@ -1,16 +1,16 @@
 
-# Sistema de Agendamento para salão de beleza - Stack MERN
-
-Este projeto é um **Sistema de Agendamento Online para salão de beleza**, desenvolvido utilizando a stack **MERN (MongoDB, Express, React e Node.js)**. Foi desenvolvido com fins didáticos para servir como **apoio para os alunos desenvolverem seus próprios projetos de conclusão de curso (TCC)**.
+# Sistema de Gerenciamento de Estoque - Brechick
 
 ## Objetivo do Projeto
 
 O sistema permite que usuários realizem:
 
-- **Agendamentos de serviços**
-- **Edição de agendamentos**
-- **Cancelamento (exclusão) de agendamentos**
-- **Listagem de agendamentos pendentes e concluídos**
+- **Cadastro de produtos**
+- **Listagem de produtos**
+- **Edição de de produtos**
+- **Cadastro de categorias**
+- **Edição de categorias**
+- **Listagem de produtos**
 - **Autenticação de usuários (Login e Registro)**
 
 ## Tecnologias Utilizadas
